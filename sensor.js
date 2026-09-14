@@ -1,7 +1,7 @@
 // Create and a Variable:
 let fuelLevel = 100;
-function setInterval(fuelLevel, ms){
-        fuelLevel = fuelLevel -= ms;
+function tick(){
+        fuelLevel = fuelLevel -= 2;
         console.log("Fuel: ", fuelLevel);
 }
-setInterval(fuelLevel, 2);
+setInterval(tick, 1000);
