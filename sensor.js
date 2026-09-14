@@ -4,24 +4,26 @@ const sensors = [
         { name: "Oil Pressure", value: 45, unit: "psi" }
 ];
 
+function readSensorAsync(name, delayMs) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const value = Math.random() * 100;
+      resolve(value);
+    }, delayMs);
+  });
+}
 
-function tick(){
+async function tick(){
         for (const s of sensors) {
                 if(s.name === 'Fuel') {
-                        s.value -= 2
-                        if(s.value <= 0){
-                                clearInterval(timerId);}
+                        s.value = await readSensorAsync("Fuel", 500);
                 }
                 if(s.name === 'RPM'){
-                        if(s.value <= 2500 && s.value >= 2200){
-                                s.value -=5}
-                        else if (s.value <= 2200){
-                                s.value +=2}}
+                        s.value = await readSensorAsync("RPM", 500);
+                }
                 if(s.name === "Oil Pressure"){
-                        s.value -= 1
-                        if(s.value <= 0){
-                                clearInterval(timerId);}
-        }
+                        s.value = await readSensorAsync("Oil Pressure", 500);
+                }
                 console.log(s.name, s.value, s.unit);
 
         }
