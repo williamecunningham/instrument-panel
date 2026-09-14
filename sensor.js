@@ -25,9 +25,8 @@ async function tick(){
             s.value = await readSensorAsync("Oil Pressure", 500);
         }
         console.log(s.name, s.value, s.unit);
-
         }
-    setTimeout(tick, 1000); // schedule the *next* run, only now
+    	setTimeout(tick, 1000); // schedule the *next* run, only now
 }
 
 tick(); // kick off the first run}
