@@ -7,18 +7,21 @@ const sensors = [
 
 function tick(){
         for (const s of sensors) {
-                if(s.name == 'Fuel') {
+                if(s.name === 'Fuel') {
                         s.value -= 2
                         if(s.value <= 0){
                                 clearInterval(timerId);}
                 }
-                if(s.name == 'RPM'){
+                if(s.name === 'RPM'){
                         if(s.value <= 2500 && s.value >= 2200){
                                 s.value -=5}
                         else if (s.value <= 2200){
                                 s.value +=2}}
-                if(s.name == "Oil Pressure"){
-                                {s.value -= 1}}
+                if(s.name === "Oil Pressure"){
+                        s.value -= 1
+                        if(s.value <= 0){
+                                clearInterval(timerId);}
+        }
                 console.log(s.name, s.value, s.unit);
 
         }
