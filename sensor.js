@@ -16,13 +16,16 @@ function readSensorAsync(name, delayMs) {
 async function tick(){
     for (const s of sensors) {
         if(s.name === 'Fuel') {
-            s.value = await readSensorAsync("Fuel", 500);
+		if(s.value > 0){
+            s.value = await readSensorAsync("Fuel", 500);}
         }
         if(s.name === 'RPM'){
-            s.value = await readSensorAsync("RPM", 500);
+		if(s.value > 0){
+            s.value = await readSensorAsync("RPM", 500);}
         }
         if(s.name === "Oil Pressure"){
-            s.value = await readSensorAsync("Oil Pressure", 500);
+		if(s.value > 0){
+            s.value = await readSensorAsync("Oil Pressure", 500);}
         }
         console.log(s.name, s.value, s.unit);
 
