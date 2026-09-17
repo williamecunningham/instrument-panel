@@ -4,18 +4,21 @@ const sensors = [
   { name: "Oil Pressure", value: 45, unit: "psi" },
 ];
 
-function getRandomReading(maxChange) {
+function getRandomReading(targetCenter, maxChange) {
   return Math.round((Math.random() * 2 - 1) * maxChange);
 }
 
 function readSensorAsync(name, sensorReading, delayMs) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      let value = 0;
-      let maxChange = 100;
+      let value >= 0;
+      //let maxChange = 100;
       if (name === "Fuel"){
         sensorReading -= 2;
         value = sensorReading;
+      else{ 
+          clearInterval(timerId);
+        }
       }
       if (name === "RPM"){
         value = sensorReading + getRandomReading(100);
