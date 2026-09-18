@@ -30,28 +30,19 @@ function readSensorAsync(name, sensorReading, delayMs) {
 }
 
 async function tick() {
-  let fuelValue = 0;
+  await Promise.all(
+    sensors.map(async (s) => {
+      if (s.value > 0) {
+        s.value = await readSensorAsync(s.name, s.value, 500);
+      }
+    })
+  );
 
   for (const s of sensors) {
-    if (s.name === "Fuel") {
-      if (s.value > 0) {
-        s.value = await readSensorAsync("Fuel", s.value, 500);
-      }
-      fuelValue = s.value;
-    }
-    if (s.name === "RPM") {
-      if (s.value > 0) {
-        s.value = await readSensorAsync("RPM", s.value, 500);
-      }
-    }
-    if (s.name === "Oil Pressure") {
-      if (s.value > 0) {
-        s.value = await readSensorAsync("Oil Pressure", s.value, 500);
-      }
-    }
     console.log(s.name, s.value, s.unit);
   }
-  if (fuelValue >0 ) {
+  const fuel = sensors.find(sensor => sensor.name === "Fuel");
+  if (fuel.value >0 ) {
   setTimeout(tick, 1000); // schedule the *next* run, only now
   }
 }
