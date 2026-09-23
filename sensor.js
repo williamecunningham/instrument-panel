@@ -38,9 +38,9 @@ async function tick() {
     })
   );
 
-  for (const s of sensors) {
+/*   for (const s of sensors) {
     console.log(s.name, s.value, s.unit);
-  }
+  } */
   const fuel = sensors.find(sensor => sensor.name === "Fuel");
   if (fuel.value >0 ) {
   setTimeout(tick, 1000); // schedule the *next* run, only now
