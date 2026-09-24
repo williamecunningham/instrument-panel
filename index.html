@@ -17,65 +17,6 @@
   <canvas id = "rpmGauge" width="200" height="200"></canvas>
   <canvas id = "oilPressure" width="200" height="200"></canvas>
 
-  <script>
-    const socket = new WebSocket("ws://localhost:3000");
-    const canvasFuel = document.getElementById("fuelGauge")
-    const ctxFuel = canvasFuel.getContext("2d");
-    const canvasRPM = document.getElementById("rpmGauge");
-    const ctxRPM = canvasRPM.getContext("2d");
-    const canvasOil = document.getElementById("oilPressure");
-    const ctxOil = canvasOil.getContext("2d");
-
-function drawGauge(ctx, value, maxValue, label) {
-    const centerX = ctx.canvas.width / 2;
-    const centerY = ctx.canvas.height / 2;
-    const radius = 80;
-
-    ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
-
-    // background arc (full circle, faint)
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    ctx.strokeStyle = "#333";
-    ctx.lineWidth = 12;
-    ctx.stroke();
-
-    // value arc (propotional to value/maxValue)
-    const fraction = value / maxValue;
-    const startAngle = -Math.PI / 2;
-    const endAngle = startAngle + fraction * Math.PI * 2;
-    
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-    ctx.strokeStyle = "#0f0";
-    ctx.lineWidth = 12;
-    ctx.stroke();
-
-    // label + value text
-    ctx.fillStyle = "#fff";
-    ctx.font = "20px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(`${label}: ${value}`, centerX, centerY + 5);
-}
-
-    socket.onopen = () => {
-      console.log("Connected to server");
-    };
-
-    socket.onmessage = (event) => {
-      const sensors = JSON.parse(event.data);
-      const fuel = sensors.find(s=> s.name === "Fuel")
-      const rpm = sensors.find(s=>s.name === "RPM")
-      const pressure = sensors.find(s=>s.name === "Oil Pressure")
-      //document.getElementById("readout").textContent = JSON.stringify(sensors, null, 2);
-      drawGauge(ctxFuel, fuel.value, 100, "Fuel")
-      drawGauge(ctxRPM, rpm.value, 2500, "RPM")
-      drawGauge(ctxOil, pressure.value, 50, "Oil Pressure")
-    };
-
-    socket.onclose = () => {
-      console.log("Disconnected from server");
-    };
-  </script>
+  <script type="module" src="dist/client.js"></script>
 </body>
 </html>
