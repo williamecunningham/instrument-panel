@@ -4,19 +4,26 @@
   "description": "javascript instrument panel",
   "main": "sensor.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/williamecunningham/instrument-panel.git"
   },
   "keywords": [],
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/williamecunningham/instrument-panel/issues"
   },
   "homepage": "https://github.com/williamecunningham/instrument-panel#readme",
   "dependencies": {
     "ws": "^8.21.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "@types/ws": "^8.18.1",
+    "typescript": "^7.0.2"
   }
 }

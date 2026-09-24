@@ -1,10 +1,10 @@
-const http = require("http");
-const WebSocket = require("ws");
+import http from "http";
+import { WebSocketServer, WebSocket } from "ws";
 
 const server = http.createServer();
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocketServer({ server });
 
-wss.on("connection", (ws) => {
+wss.on("connection", (ws: WebSocket) => {
   console.log("Client connected");
 
   ws.on("close", () => {
@@ -16,7 +16,7 @@ server.listen(3000, () => {
     console.log("Server listening on port 3000");
 });
 
-function broadcast(data) {
+function broadcast(data:Sensor[]) {
   const message = JSON.stringify(data);
   for (const client of wss.clients) {
     if (client.readyState === WebSocket.OPEN) {
@@ -24,21 +24,25 @@ function broadcast(data) {
     }
   }
 }
-
-const sensors = [
+interface Sensor {
+  name: string;
+  value: number;
+  unit: string;
+}
+const sensors: Sensor[] = [
   { name: "Fuel", value: 100, unit: "%" },
   { name: "RPM", value: 2400, unit: "rpm" },
   { name: "Oil Pressure", value: 45, unit: "psi" },
 ];
 
-function getRandomReading(currentValue, targetCenter, maxChange) {
+function getRandomReading(currentValue : number, targetCenter : number, maxChange : number) {
   const jitter = (Math.random() * 2 - 1) * maxChange;
   const pullback = (targetCenter - currentValue) * 0.1;
   return Math.round(currentValue + jitter + pullback);
 }
 
-function readSensorAsync(name, sensorReading, delayMs) {
-  return new Promise((resolve, reject) => {
+function readSensorAsync(name : string, sensorReading : number, delayMs : number) {
+  return new Promise<number>((resolve, reject) => {
     setTimeout(() => {
       let value = 0;
       if (name === "Fuel"){
@@ -70,7 +74,7 @@ async function tick() {
   } */
   broadcast(sensors);
   const fuel = sensors.find(sensor => sensor.name === "Fuel");
-  if (fuel.value >0 ) {
+  if (fuel && fuel.value >0 ) {
   setTimeout(tick, 1000); // schedule the *next* run, only now
   }
 }
