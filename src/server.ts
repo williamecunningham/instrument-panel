@@ -1,7 +1,35 @@
 import http from "http";
 import { WebSocketServer, WebSocket } from "ws";
 
-const server = http.createServer();
+import { readFile } from "fs";
+
+const server = http.createServer((req, res) => {
+  let filePath: string;
+  let contentType: string;
+
+  if (req.url === "/") {
+    filePath = "index.html";
+    contentType = "text/html";
+  } else if (req.url && req.url.startsWith("/dist")) {
+    filePath = "." + req.url;
+    contentType = "text/javascript";
+  } else {
+    res.writeHead(404);
+    res.end("Not found");
+    return;
+  }
+  
+  readFile(filePath, (err, data) => {
+      if (err) {
+        res.writeHead(500);
+        res.end("Error loading index.html");
+        return;
+      }
+      res.writeHead(200, { "Content-Type": contentType });
+      res.end(data);
+    });
+  });
+
 const wss = new WebSocketServer({ server });
 
 wss.on("connection", (ws: WebSocket) => {

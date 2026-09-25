@@ -5,6 +5,7 @@ interface Sensor {
 }
 
   const socket = new WebSocket("ws://localhost:3000");
+
 function getCtx(id: string): CanvasRenderingContext2D {
   const canvas = document.getElementById(id);
   if (!(canvas instanceof HTMLCanvasElement)) {
