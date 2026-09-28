@@ -6,6 +6,18 @@ interface Sensor {
   unit: string;
 }
 
+interface GaugeProps {
+  value: number;
+  maxValue: number;
+  label: string;
+}
+
+function Gauge({ value, maxValue, label }: GaugeProps) {
+  return (
+    <div>{label}: {value}</div>
+  );
+}
+
 function App() {
   const [sensors, setSensors] = useState<Sensor[]>([]);
 
@@ -25,7 +37,9 @@ function App() {
   return (
     <div>
       <h1>Instrument Panel</h1>
-      <pre>{JSON.stringify(sensors, null, 2)}</pre>
+      {sensors.map(s => (
+        <Gauge key={s.name} value={s.value} maxValue={100} label={s.name} />
+      ))}
     </div>
   );
 }
