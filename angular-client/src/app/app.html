@@ -1,0 +1,7 @@
+<h1>Instrument Panel</h1>
+
+@for (sensor of sensorData.sensors(); track sensor.name) {
+  <app-gauge [value]="sensor.value" [maxValue]="maxValues[sensor.name]" [label]="sensor.name"></app-gauge>
+}
+
+<router-outlet />
