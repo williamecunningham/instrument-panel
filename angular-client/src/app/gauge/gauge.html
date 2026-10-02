@@ -1,1 +1,7 @@
-<div>{{ label() }}: {{ value() }}</div>
+<svg [attr.width]="size" [attr.height]="size">
+  <circle [attr.cx]="center" [attr.cy]="center" [attr.r]="radius" stroke="#333" stroke-width="12" fill="none" />
+  <path [attr.d]="describeArc()" stroke="#0f0" stroke-width="12" fill="none" />
+  <text [attr.x]="center" [attr.y]="center" text-anchor="middle" fill="#fff" font-size="20">
+    {{ label() }}: {{ value() }}
+  </text>
+</svg>
